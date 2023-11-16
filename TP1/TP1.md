@@ -83,8 +83,6 @@ server {
 
 ## II. Images
 
-### 1. Construisez votre propre Dockerfile
-
 🌞 **Construire votre propre image**
 
 ```bash
@@ -139,66 +137,6 @@ hello dorian
 
 ## III. `docker-compose`
 
-### 1. Intro
-
-`docker compose` est un outil qui permet de lancer plusieurs conteneurs en une seule commande.
-
-> En plus d'être pratique, il fournit des fonctionnalités additionnelles, liés au fait qu'il s'occupe à lui tout seul de lancer tous les conteneurs. On peut par exemple demander à un conteneur de ne s'allumer que lorsqu'un autre conteneur est devenu "healthy". Idéal pour lancer une application après sa base de données par exemple.
-
-Le principe de fonctionnement de `docker compose` :
-
-- on écrit un fichier qui décrit les conteneurs voulus
-  - c'est le `docker-compose.yml`
-  - tout ce que vous écriviez sur la ligne `docker run` peut être écrit sous la forme d'un `docker-compose.yml`
-- on se déplace dans le dossier qui contient le `docker-compose.yml`
-- on peut utiliser les commandes `docker compose` :
-
-```bash
-# Allumer les conteneurs définis dans le docker-compose.yml
-$ docker compose up
-$ docker compose up -d
-
-# Eteindre
-$ docker compose down
-
-# Explorer un peu le help, il y a d'autres commandes utiles
-$ docker compose --help
-```
-
-La syntaxe du fichier peut par exemple ressembler à :
-
-```yml
-version: "3.8"
-
-services:
-  db:
-    image: mysql:5.7
-    restart: always
-    ports:
-      - '3306:3306'
-    volumes:
-      - "./db/mysql_files:/var/lib/mysql"
-    environment:
-      MYSQL_ROOT_PASSWORD: beep
-      MYSQL_DATABASE: bip
-      MYSQL_USER: bap
-      MYSQL_PASSWORD: boop
-
-  nginx:
-    image: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    restart: unless-stopped
-```
-
-> Pour connaître les variables d'environnement qu'on peut passer à un conteneur, comme `MYSQL_ROOT_PASSWORD` au dessus, il faut se rendre sur la doc de l'image en question, sur le Docker Hub par exemple.
-
-## 2. WikiJS
-
-WikiJS est une application web plutôt cool qui comme son nom l'indique permet d'héberger un ou plusieurs wikis. Même principe qu'un MediaWiki donc (solution opensource utilisée par Wikipedia par exemple) mais avec un look plus moderne.
-
 🌞 **Installez un WikiJS** en utilisant Docker
 
 - WikiJS a besoin d'une base de données pour fonctionner
@@ -232,7 +170,7 @@ Peu importe le langage aussi ! Go, Python, PHP (désolé des gros mots), NodeJS 
 
 📁 📁 `app/Dockerfile` et `app/docker-compose.yml`. Je veux un sous-dossier `app/` sur votre dépôt git avec ces deux fichiers dedans :)
 
-# IV. Docker security
+## IV. Docker security
 
 Dans cette partie, on va survoler quelques aspects de Docker en terme de sécurité.
 
