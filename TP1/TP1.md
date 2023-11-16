@@ -83,100 +83,29 @@ server {
 
 ## II. Images
 
-La construction d'image avec Docker est basée sur l'utilisation de fichiers `Dockerfile`.
-
-L'idée est la suivante :
-
-- vous créez un dossier de travail
-- vous vous déplacez dans ce dossier de travail
-- vous créez un fichier `Dockerfile`
-  - il contient les instructions pour construire une image
-  - `FROM` : indique l'image de base
-  - `RUN` : indique des opérations à effectuer dans l'image de base
-- vous exécutez une commande `docker build . -t <IMAGE_NAME>`
-- une image est produite, visible avec la commande `docker images`
-
-## Exemple de Dockerfile et utilisation
-
-Exemple d'un Dockerfile qui :
-
-- se base sur une image ubuntu
-- la met à jour
-- installe nginx
-
-```bash
-$ cat Dockerfile
-FROM ubuntu
-
-RUN apt update -y
-
-RUN apt install -y nginx
-```
-
-Une fois ce fichier créé, on peut :
-
-```bash
-$ ls
-Dockerfile
-
-$ docker build . -t my_own_nginx 
-
-$ docker images
-
-$ docker run -p 8888:80 my_own_nginx nginx -g "daemon off;"
-
-$ curl localhost:8888
-$ curl <IP_VM>:8888
-```
-
-> La commande `nginx -g "daemon off;"` permet de lancer NGINX au premier-plan, et ainsi demande à notre conteneur d'exécuter le programme NGINX à son lancement.
-
-Plutôt que de préciser à la main à chaque `docker run` quelle commande doit lancer le conteneur (notre `nginx -g "daemon off;"` en fin de ligne ici), on peut, au moment du `build` de l'image, choisir d'indiquer que chaque conteneur lancé à partir de cette image lancera une commande donneé.
-
-Il faut, pour cela, modifier le Dockerfile :
-
-```bash
-$ cat Dockerfile
-FROM ubuntu
-
-RUN apt update -y
-
-RUN apt install -y nginx
-
-CMD [ "/usr/sbin/nginx", "-g", "daemon off;" ]
-```
-
-```bash
-$ ls
-Dockerfile
-
-$ docker build . -t my_own_nginx
-
-$ docker images
-
-$ docker run -p 8888:80 my_own_nginx
-
-$ curl localhost:8888
-$ curl <IP_VM>:8888
-```
-
-![Waiting for Docker](./img/waiting_for_docker.jpg)
-
-## 2. Construisez votre propre Dockerfile
+### 1. Construisez votre propre Dockerfile
 
 🌞 **Construire votre propre image**
 
-- image de base (celle que vous voulez : debian, alpine, ubuntu, etc.)
-  - une image du Docker Hub
-  - qui ne porte aucune application par défaut
-- vous ajouterez
-  - mise à jour du système
-  - installation de Apache (pour les systèmes debian, le serveur Web apache s'appelle `apache2` et non pas `httpd` comme sur Rocky)
-  - page d'accueil Apache HTML personnalisée
+```bash
+[dorian@laptop-dorian cloud]$ cat Dockerfile 
+FROM ubuntu
 
-➜ Pour vous aider, voilà un fichier de conf minimal pour Apache (à positionner dans `/etc/apache2/apache2.conf`) :
+RUN apt update -y
 
-```apache2
+RUN apt install -y apache2
+
+RUN echo "hello dorian" > /var/www/html/index.html 
+
+COPY apache2.conf /etc/apache2/apache2.conf
+
+CMD [ "apache2", "-D", "FOREGROUND" ]
+```
+
+- Conf apache
+
+```bash
+[dorian@laptop-dorian cloud]$ cat apache2.conf 
 # on définit un port sur lequel écouter
 Listen 80
 
@@ -191,17 +120,26 @@ DirectoryIndex index.html
 DocumentRoot "/var/www/html/"
 
 # quelques paramètres pour les logs
-ErrorLog "logs/error.log"
+ErrorLog "/var/log/apache2/error.log"
 LogLevel warn
 ```
 
-➜ Et aussi, la commande pour lancer Apache à la main sur un système Debian par exemple c'est : `apache2 -DFOREGROUND`.
+```bash
+docker build . -t mon
+```
 
-📁 **`Dockerfile`**
+```bash
+docker run -d -p 8888:80 mon
+```
 
-# III. `docker-compose`
+```bash
+[dorian@laptop-dorian cloud]$ curl localhost:8888
+hello dorian
+```
 
-## 1. Intro
+## III. `docker-compose`
+
+### 1. Intro
 
 `docker compose` est un outil qui permet de lancer plusieurs conteneurs en une seule commande.
 
