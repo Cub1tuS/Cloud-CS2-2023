@@ -139,15 +139,45 @@ hello dorian
 
 🌞 **Installez un WikiJS** en utilisant Docker
 
-- WikiJS a besoin d'une base de données pour fonctionner
-- il faudra donc deux conteneurs : un pour WikiJS et un pour la base de données
-- référez-vous à la doc officielle de WikiJS, c'est tout guidé
+```bash
+[dorian@laptop-dorian cloud]$ nano docker-compose.yml
+```
 
-🌞 **Construisez vous-mêmes l'image de WikiJS**
+```bash
+[dorian@laptop-dorian cloud]$ cat docker-compose.yml
+version: "3"
+services:
 
-- récupérez le Dockerfile officiel et utilisez-le pour build localement l'image
-- intégrez un build automatique de l'image dans le `docker-compose.yml` (ça se fait avec la clause `build:`)
-- assurez-vous, pour des raisons de sécurité, qu'un autre utilisateur que `root` est utilisé
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: wiki
+      POSTGRES_PASSWORD: wikijsrocks
+      POSTGRES_USER: wikijs
+    logging:
+      driver: "none"
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  wiki:
+    image: ghcr.io/requarks/wiki:2
+    depends_on:
+      - db
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: wikijsrocks
+      DB_NAME: wiki
+    restart: unless-stopped
+    ports:
+      - "80:3000"
+
+volumes:
+  db-data:
+```
 
 ## 3. Make your own meow
 
