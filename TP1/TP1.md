@@ -9,11 +9,7 @@
   - [2. Vérifier l'install](#2-vérifier-linstall)
   - [3. Lancement de conteneurs](#3-lancement-de-conteneurs)
 - [II. Images](#ii-images)
-  - [Exemple de Dockerfile et utilisation](#exemple-de-dockerfile-et-utilisation)
-  - [2. Construisez votre propre Dockerfile](#2-construisez-votre-propre-dockerfile)
 - [III. `docker-compose`](#iii-docker-compose)
-  - [1. Intro](#1-intro)
-  - [2. WikiJS](#2-wikijs)
   - [3. Make your own meow](#3-make-your-own-meow)
 - [IV. Docker security](#iv-docker-security)
   - [1. Le groupe docker](#1-le-groupe-docker)
@@ -189,16 +185,7 @@ Peu importe le langage aussi ! Go, Python, PHP (désolé des gros mots), NodeJS 
 
 🌞 **Conteneurisez votre application**
 
-- créer un `Dockerfile` maison qui porte l'application
-- créer un `docker-compose.yml` qui permet de lancer votre application
-- vous préciserez dans le rendu les instructions pour lancer l'application
-  - indiquer la commande `git clone` pour récupérer votre dépôt
-  - le `cd` dans le bon dossier
-  - la commande `docker build` pour build l'image
-  - la commande `docker-compose` pour lancer le(s) conteneur(s)
-  - comme un vrai README qui m'explique comment lancer votre app !
-
-📁 📁 `app/Dockerfile` et `app/docker-compose.yml`. Je veux un sous-dossier `app/` sur votre dépôt git avec ces deux fichiers dedans :)
+ [L'application sous forme de conteneur ici :)](./app)
 
 ## IV. Docker security
 
