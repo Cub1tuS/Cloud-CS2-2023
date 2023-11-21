@@ -22,4 +22,4 @@ docker compose up
 
 ## C'est terminé
 
-> Vous pouvez désormais utiliser cette magnifique application accessible sur le port 8888/TCP de la machine en local qui permet d'assigner une valeur à une clé !
+> Vous pouvez désormais utiliser cette magnifique application accessible sur le port 8888/TCP de la machine local qui permet d'assigner une valeur à une clé !
