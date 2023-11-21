@@ -1,0 +1,17 @@
+services:
+  # Service pour votre application
+  app:
+    build: .
+    ports:
+      - "8888:8888"  # Redirigez le port du conteneur vers le port de l'hôte
+    depends_on:
+      - db  # Dépend du service db
+    restart: unless-stopped
+
+  # Service pour Redis
+  db:
+    restart: always
+    image: "redis:latest"
+    ports:
+      - "6379:6379"  # Redirigez le port du conteneur vers le port de l'hôte
+    container_name: "db"  # Nom du conteneur Redis
