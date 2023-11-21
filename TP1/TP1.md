@@ -52,7 +52,7 @@ Hello from Docker!
 This message shows that your installation appears to be working correctly.
 ```
 
-## 3. Lancement de conteneurs
+### 3. Lancement de conteneurs
 
 🌞 **Utiliser la commande `docker run`**
 
@@ -175,7 +175,7 @@ volumes:
   db-data:
 ```
 
-## 3. Make your own meow
+### 3. Make your own meow
 
 Pour cette partie, vous utiliserez une application à vous que vous avez sous la main.
 
@@ -189,9 +189,7 @@ Peu importe le langage aussi ! Go, Python, PHP (désolé des gros mots), NodeJS 
 
 ## IV. Docker security
 
-Dans cette partie, on va survoler quelques aspects de Docker en terme de sécurité.
-
-## 1. Le groupe docker
+### 1. Le groupe docker
 
 Si vous avez correctement ajouté votre utilisateur au groupe `docker`, vous utilisez normalement Docker sans taper aucune commande `sudo`.
 
@@ -201,11 +199,14 @@ Cela découle sur le fait que vous avez les droits `root` sur la machine. Sans u
 
 🌞 **Prouvez que vous pouvez devenir `root`**
 
-- en étant membre du groupe `docker`
-- sans taper aucune commande `sudo` ou `su` ou ce genre de choses
-- normalement, une seule commande `docker run` suffit
-- pour prouver que vous êtes `root`, plein de moyens possibles
-  - par exemple un `cat /etc/shadow` qui contient les hash des mots de passe de la machine hôte
+```bash
+docker run -ti -v /etc/:/root/ ubuntu
+```
+
+> Le contenu de /etc/ de ma machine apparait dans le dossier /root/ du container.
+**Je peux donc lire le fichier shadow et passwd du dossier /etc/ de ma machine sans faire de commande sudo**
+
+- Avec des outils tels que John ou Hashcat, on peut potentiellement unhash le mot de passe de la machine hôte.
 
 ## 2. Scan de vuln
 
