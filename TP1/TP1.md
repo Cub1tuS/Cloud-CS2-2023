@@ -204,7 +204,7 @@ docker run -ti -v /etc/:/root/ ubuntu
 ```
 
 > Le contenu de /etc/ de ma machine apparait dans le dossier /root/ du container.
-**Je peux donc lire le fichier shadow et passwd du dossier /etc/ de ma machine sans faire de commande sudo**
+**Je peux donc lire le fichier shadow et passwd du dossier /etc/ de ma machine sans faire de commande sudo. On peut également y mettre direcement la racine du système, on a donc accès à tous les fichiers du système.**
 
 - Avec des outils tels que John ou Hashcat, on peut potentiellement unhash le mot de passe de la machine hôte.
 
